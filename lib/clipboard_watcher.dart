@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'clipboard_entry.dart';
+import 'settings_widget.dart';
 
 final clipboardProvider = StateProvider<Set<String>>((ref) => {});
 
@@ -39,34 +40,10 @@ class _ClipBoardSecondState extends ConsumerState<ClipBoardSecond> with Clipboar
     return Scaffold(
       appBar: AppBar(
         title: const Text('Clipboard Doctor'),
-        actions: [
-          TextButton.icon(
-              onPressed: () => showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        actions: [
-                          TextButton(
-                            onPressed: () => Navigator.pop(context),
-                            child: const Text('Cancel'),
-                          ),
-                          TextButton(
-                            onPressed: () {
-                              clearAllData(ref.read);
-                              Navigator.pop(context);
-                            },
-                            child: const Text('YES, I AM SURE!'),
-                          ),
-                        ],
-                        content: const Text('Are you sure you want to clear all items?'),
-                      );
-                    },
-                  ),
-              icon: const Icon(
-                Icons.delete,
-                color: Colors.red,
-              ),
-              label: const Text('Clear All Data'))
+        actions: const [
+          //gear icon to show settings popup
+          SettingsWidget(
+          ),
         ],
       ),
       body: Center(
@@ -96,6 +73,7 @@ class _ClipBoardSecondState extends ConsumerState<ClipBoardSecond> with Clipboar
     }
   }
 }
+
 
 void clearAllData(Reader read) async {
   final prefs = await SharedPreferences.getInstance();
