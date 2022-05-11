@@ -1,4 +1,5 @@
 import 'package:clipboard_watcher/clipboard_watcher.dart';
+import 'package:clipboardoctor/models/clipboard_entry_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -7,16 +8,16 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'clipboard_entry.dart';
 import 'settings_widget.dart';
 
-final clipboardProvider = StateProvider<Set<String>>((ref) => {});
+final clipboardProvider = StateProvider<Set<ClipboardEntry>>((ref) => {});
 
-class ClipBoardSecond extends ConsumerStatefulWidget {
-  const ClipBoardSecond({Key? key}) : super(key: key);
+class HomeScreen extends ConsumerStatefulWidget {
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _ClipBoardSecondState();
 }
 
-class _ClipBoardSecondState extends ConsumerState<ClipBoardSecond> with ClipboardListener {
+class _ClipBoardSecondState extends ConsumerState<HomeScreen> with ClipboardListener {
   @override
   void initState() {
     clipboardWatcher.addListener(this);
@@ -42,8 +43,7 @@ class _ClipBoardSecondState extends ConsumerState<ClipBoardSecond> with Clipboar
         title: const Text('Clipboard Doctor'),
         actions: const [
           //gear icon to show settings popup
-          SettingsWidget(
-          ),
+          SettingsWidget(),
         ],
       ),
       body: Center(
@@ -53,7 +53,7 @@ class _ClipBoardSecondState extends ConsumerState<ClipBoardSecond> with Clipboar
             return Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                for (var item in x.toList().reversed.toList()) ClipboardEntry(text: item.toString()),
+                for (var entry in x.toList().reversed.toList()) ClipboardEntryWidget(entry: entry),
               ],
             );
           },
@@ -74,7 +74,6 @@ class _ClipBoardSecondState extends ConsumerState<ClipBoardSecond> with Clipboar
   }
 }
 
-
 void clearAllData(Reader read) async {
   final prefs = await SharedPreferences.getInstance();
   prefs.remove('clipboardoctor');
@@ -85,7 +84,7 @@ void getData(Reader read) async {
   final pref = await SharedPreferences.getInstance();
   final items = pref.getStringList('clipboardoctor');
   if (items != null) {
-    read(clipboardProvider.state).update((state) => {...state, ...Set.from(items)});
+    read(clipboardProvider.state).update((state) => {...state, ...Set<ClipboardEntry>.from(items)});
   }
 }
 
@@ -96,7 +95,7 @@ Future saveData(Reader read, String text) async {
   data.add(text);
   data.toSet();
   prefs.setStringList('clipboardoctor', data);
-  read(clipboardProvider.state).update((state) => {...state, text});
+  read(clipboardProvider.state).update((state) => {...state, ClipboardEntry(text: text)});
 }
 
 // ////////////////////

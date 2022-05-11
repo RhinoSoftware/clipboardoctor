@@ -6,8 +6,10 @@ import 'clipboard_watcher.dart';
 void main() {
   runApp(const ProviderScope(child: MyApp()));
 }
+
 //provider for theme color and dark mode
 final themeProvider = StateProvider<bool>((ref) => true);
+
 class MyApp extends ConsumerWidget {
   const MyApp({Key? key}) : super(key: key);
 
@@ -18,8 +20,7 @@ class MyApp extends ConsumerWidget {
       debugShowCheckedModeBanner: false,
       title: 'Clipboard Doctor',
       theme: ref.watch(themeProvider) ? ThemeData.dark() : ThemeData.light(),
-
-      home: const ClipBoardSecond(),
+      home: const HomeScreen(),
     );
   }
 }
