@@ -38,6 +38,7 @@ class _ClipBoardSecondState extends ConsumerState<HomeScreen> with ClipboardList
   Set<String> items = {};
   @override
   Widget build(BuildContext context) {
+    getData(ref.read);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Clipboard Doctor'),
@@ -69,33 +70,41 @@ class _ClipBoardSecondState extends ConsumerState<HomeScreen> with ClipboardList
     final String? newText = newClipboardData?.text;
     if (newText != null) {
       newText.trim();
-      if (newText.isNotEmpty) saveData(ref.read, newText);
+      if (newText.isNotEmpty) saveData(ref.read, ClipboardEntry(text: newText));
     }
   }
 }
 
+const appkey = 'clipboardoctor';
 void clearAllData(Reader read) async {
   final prefs = await SharedPreferences.getInstance();
-  prefs.remove('clipboardoctor');
+  prefs.remove(appkey);
   read(clipboardProvider.state).update((state) => {});
 }
 
 void getData(Reader read) async {
   final pref = await SharedPreferences.getInstance();
-  final items = pref.getStringList('clipboardoctor');
+  final items = pref.getStringList(appkey);
   if (items != null) {
-    read(clipboardProvider.state).update((state) => {...state, ...Set<ClipboardEntry>.from(items)});
+    Set<ClipboardEntry> _set = {};
+    if (items.isNotEmpty) {
+      for (String e in items) {
+        _set.add(ClipboardEntry.fromJsonString(e));
+      }
+    }
+
+    read(clipboardProvider.state).update((state) => {..._set});
   }
 }
 
 //save clipboard data to shared preferences
-Future saveData(Reader read, String text) async {
+Future saveData(Reader read, ClipboardEntry newEntry) async {
   final prefs = await SharedPreferences.getInstance();
-  final data = prefs.getStringList('clipboardoctor') ?? [];
-  data.add(text);
+  final data = prefs.getStringList(appkey) ?? [];
+  data.add(newEntry.toJsonString());
   data.toSet();
-  prefs.setStringList('clipboardoctor', data);
-  read(clipboardProvider.state).update((state) => {...state, ClipboardEntry(text: text)});
+  prefs.setStringList(appkey, data);
+  read(clipboardProvider.state).update((state) => {...state, newEntry});
 }
 
 // ////////////////////
