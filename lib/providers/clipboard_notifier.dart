@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -15,6 +16,7 @@ class ClipboardItemsNotifier extends StateNotifier<List<ClipboardItem>> {
 
 // Let's allow the UI to add items.
   void addItem(String text) {
+    debugPrint('======>${text.length} ${text.isEmpty}');
 //check if the text is not empty and none of the items contain this text
     if (text.isNotEmpty && !state.any((entry) => entry.text == text)) {
       state = [
@@ -62,6 +64,11 @@ class ClipboardItemsNotifier extends StateNotifier<List<ClipboardItem>> {
     final prefs = await SharedPreferences.getInstance();
     prefs.remove(appkey);
     state = [];
+  }
+
+  void clearUnpinnedData() async {
+    state = [...state.where((entry) => entry.pinned)];
+    saveItemsToStorage();
   }
 
   void getData(Reader read) async {

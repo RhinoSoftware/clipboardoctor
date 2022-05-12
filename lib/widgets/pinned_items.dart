@@ -13,16 +13,18 @@ class PinnedItemsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const Text('Pinned Items'),
-        Wrap(
-          // mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            for (ClipboardItem entry in clipboardItems) ClipboardItemWidget(entry: entry),
-          ],
-        ),
-      ],
-    );
+    return clipboardItems.isEmpty
+        ? const SizedBox()
+        : Column(
+            children: [
+              const Text('Pinned Items'),
+              Wrap(
+                // mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  for (ClipboardItem entry in clipboardItems) ClipboardItemWidget(entry: entry),
+                ],
+              ),
+            ],
+          );
   }
 }

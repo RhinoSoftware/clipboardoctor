@@ -50,10 +50,10 @@ class SettingsWidget extends ConsumerWidget {
                     const Text('Light Mode'),
                     Switch(
                       value: ref.watch(themeProvider),
-                      onChanged: (value) async{
+                      onChanged: (value) async {
                         //save the value to shared preferences
-                          final prefs = await SharedPreferences.getInstance();
-                          prefs.setBool('clipoarddoctortheme', value);
+                        final prefs = await SharedPreferences.getInstance();
+                        prefs.setBool('clipoarddoctortheme', value);
                         ref.read(themeProvider.state).update((state) => value);
                       },
                     ),
@@ -72,11 +72,19 @@ class SettingsWidget extends ConsumerWidget {
                                 ),
                                 TextButton(
                                   onPressed: () {
+                                    ref.read(clipboardItemsProvider.notifier).clearUnpinnedData();
+                                    Navigator.pop(context);
+                                    Navigator.pop(context);
+                                  },
+                                  child: const Text('keep PINNED items only'),
+                                ),
+                                TextButton(
+                                  onPressed: () {
                                     ref.read(clipboardItemsProvider.notifier).clearAllData();
                                     Navigator.pop(context);
                                     Navigator.pop(context);
                                   },
-                                  child: const Text('YES, I AM SURE!'),
+                                  child: const Text('DELETE EVERYTHING'),
                                 ),
                               ],
                               content: const Text('Are you sure you want to clear all items?'),
@@ -87,7 +95,7 @@ class SettingsWidget extends ConsumerWidget {
                       Icons.delete,
                       color: Colors.red,
                     ),
-                    label: const Text('Clear All Data'))
+                    label: const Text('Clear Data'))
               ],
             ),
           );

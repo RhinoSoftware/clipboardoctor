@@ -38,11 +38,11 @@ class _ClipBoardSecondState extends ConsumerState<HomeScreen> with ClipboardList
     ClipboardData? newClipboardData = await Clipboard.getData(Clipboard.kTextPlain);
 
     final String? newText = newClipboardData?.text;
-    if (newText != null) {
-      newText.trim();
-      if (newText.isNotEmpty) {
-        ref.read(clipboardItemsProvider.notifier).addItem(newText);
-      }
+    if (newText == null) return;
+    newText.trimLeft();
+    newText.trimRight();
+    if (newText.isNotEmpty) {
+      ref.read(clipboardItemsProvider.notifier).addItem(newText);
     }
   }
 
