@@ -20,7 +20,8 @@ ClipboardItem _$ClipboardItemFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$ClipboardItem {
-  String get text =>
+  String get text => throw _privateConstructorUsedError;
+  String get createdAt =>
       throw _privateConstructorUsedError; //bool with default value
   bool get pinned => throw _privateConstructorUsedError;
 
@@ -35,7 +36,7 @@ abstract class $ClipboardItemCopyWith<$Res> {
   factory $ClipboardItemCopyWith(
           ClipboardItem value, $Res Function(ClipboardItem) then) =
       _$ClipboardItemCopyWithImpl<$Res>;
-  $Res call({String text, bool pinned});
+  $Res call({String text, String createdAt, bool pinned});
 }
 
 /// @nodoc
@@ -50,12 +51,17 @@ class _$ClipboardItemCopyWithImpl<$Res>
   @override
   $Res call({
     Object? text = freezed,
+    Object? createdAt = freezed,
     Object? pinned = freezed,
   }) {
     return _then(_value.copyWith(
       text: text == freezed
           ? _value.text
           : text // ignore: cast_nullable_to_non_nullable
+              as String,
+      createdAt: createdAt == freezed
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
               as String,
       pinned: pinned == freezed
           ? _value.pinned
@@ -72,7 +78,7 @@ abstract class _$$_ClipboardEntryCopyWith<$Res>
           _$_ClipboardEntry value, $Res Function(_$_ClipboardEntry) then) =
       __$$_ClipboardEntryCopyWithImpl<$Res>;
   @override
-  $Res call({String text, bool pinned});
+  $Res call({String text, String createdAt, bool pinned});
 }
 
 /// @nodoc
@@ -89,12 +95,17 @@ class __$$_ClipboardEntryCopyWithImpl<$Res>
   @override
   $Res call({
     Object? text = freezed,
+    Object? createdAt = freezed,
     Object? pinned = freezed,
   }) {
     return _then(_$_ClipboardEntry(
       text: text == freezed
           ? _value.text
           : text // ignore: cast_nullable_to_non_nullable
+              as String,
+      createdAt: createdAt == freezed
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
               as String,
       pinned: pinned == freezed
           ? _value.pinned
@@ -108,7 +119,8 @@ class __$$_ClipboardEntryCopyWithImpl<$Res>
 
 @JsonSerializable(explicitToJson: true)
 class _$_ClipboardEntry extends _ClipboardEntry with DiagnosticableTreeMixin {
-  const _$_ClipboardEntry({required this.text, this.pinned = false})
+  const _$_ClipboardEntry(
+      {required this.text, required this.createdAt, this.pinned = false})
       : super._();
 
   factory _$_ClipboardEntry.fromJson(Map<String, dynamic> json) =>
@@ -116,6 +128,8 @@ class _$_ClipboardEntry extends _ClipboardEntry with DiagnosticableTreeMixin {
 
   @override
   final String text;
+  @override
+  final String createdAt;
 //bool with default value
   @override
   @JsonKey()
@@ -123,7 +137,7 @@ class _$_ClipboardEntry extends _ClipboardEntry with DiagnosticableTreeMixin {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'ClipboardItem(text: $text, pinned: $pinned)';
+    return 'ClipboardItem(text: $text, createdAt: $createdAt, pinned: $pinned)';
   }
 
   @override
@@ -132,6 +146,7 @@ class _$_ClipboardEntry extends _ClipboardEntry with DiagnosticableTreeMixin {
     properties
       ..add(DiagnosticsProperty('type', 'ClipboardItem'))
       ..add(DiagnosticsProperty('text', text))
+      ..add(DiagnosticsProperty('createdAt', createdAt))
       ..add(DiagnosticsProperty('pinned', pinned));
   }
 
@@ -141,6 +156,7 @@ class _$_ClipboardEntry extends _ClipboardEntry with DiagnosticableTreeMixin {
         (other.runtimeType == runtimeType &&
             other is _$_ClipboardEntry &&
             const DeepCollectionEquality().equals(other.text, text) &&
+            const DeepCollectionEquality().equals(other.createdAt, createdAt) &&
             const DeepCollectionEquality().equals(other.pinned, pinned));
   }
 
@@ -149,6 +165,7 @@ class _$_ClipboardEntry extends _ClipboardEntry with DiagnosticableTreeMixin {
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(text),
+      const DeepCollectionEquality().hash(createdAt),
       const DeepCollectionEquality().hash(pinned));
 
   @JsonKey(ignore: true)
@@ -164,7 +181,9 @@ class _$_ClipboardEntry extends _ClipboardEntry with DiagnosticableTreeMixin {
 
 abstract class _ClipboardEntry extends ClipboardItem {
   const factory _ClipboardEntry(
-      {required final String text, final bool pinned}) = _$_ClipboardEntry;
+      {required final String text,
+      required final String createdAt,
+      final bool pinned}) = _$_ClipboardEntry;
   const _ClipboardEntry._() : super._();
 
   factory _ClipboardEntry.fromJson(Map<String, dynamic> json) =
@@ -172,6 +191,8 @@ abstract class _ClipboardEntry extends ClipboardItem {
 
   @override
   String get text => throw _privateConstructorUsedError;
+  @override
+  String get createdAt => throw _privateConstructorUsedError;
   @override //bool with default value
   bool get pinned => throw _privateConstructorUsedError;
   @override

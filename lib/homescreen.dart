@@ -1,14 +1,11 @@
 import 'package:clipboard_watcher/clipboard_watcher.dart';
 import 'package:clipboardoctor/clipboard_notifier.dart';
 import 'package:clipboardoctor/main_clipboardentries_widget.dart';
-import 'package:clipboardoctor/models/clipboard_entry_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'settings_widget.dart';
-
-final clipboardProvider = StateProvider<Set<ClipboardItem>>((ref) => {});
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -23,7 +20,7 @@ class _ClipBoardSecondState extends ConsumerState<HomeScreen> with ClipboardList
     clipboardWatcher.addListener(this);
     // start watch
     clipboardWatcher.start();
-    ref.read(clipboardEntriesProvider.notifier).getData(ref.read);
+    ref.read(clipboardItemsProvider.notifier).getData(ref.read);
     super.initState();
   }
 
@@ -36,6 +33,19 @@ class _ClipBoardSecondState extends ConsumerState<HomeScreen> with ClipboardList
   }
 
   @override
+  void onClipboardChanged() async {
+    ClipboardData? newClipboardData = await Clipboard.getData(Clipboard.kTextPlain);
+
+    final String? newText = newClipboardData?.text;
+    if (newText != null) {
+      newText.trim();
+      if (newText.isNotEmpty) {
+        ref.read(clipboardItemsProvider.notifier).addItem(newText);
+      }
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
@@ -45,19 +55,6 @@ class _ClipBoardSecondState extends ConsumerState<HomeScreen> with ClipboardList
             SettingsWidget(),
           ],
         ),
-        body: const ClipboardMainWidget());
-  }
-
-  @override
-  void onClipboardChanged() async {
-    ClipboardData? newClipboardData = await Clipboard.getData(Clipboard.kTextPlain);
-
-    final String? newText = newClipboardData?.text;
-    if (newText != null) {
-      newText.trim();
-      if (newText.isNotEmpty) {
-        ref.read(clipboardEntriesProvider.notifier).addItem(newText);
-      }
-    }
+        body: const ClipboardMainScreen());
   }
 }

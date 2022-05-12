@@ -14,6 +14,7 @@ class ClipboardItem with _$ClipboardItem {
   @JsonSerializable(explicitToJson: true)
   const factory ClipboardItem({
     required String text,
+    required String createdAt,
     //bool with default value
     @Default(false) bool pinned,
   }) = _ClipboardEntry;

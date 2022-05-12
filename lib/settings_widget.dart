@@ -68,7 +68,7 @@ class SettingsWidget extends ConsumerWidget {
                                 ),
                                 TextButton(
                                   onPressed: () {
-                                    ref.read(clipboardEntriesProvider.notifier).clearAllData();
+                                    ref.read(clipboardItemsProvider.notifier).clearAllData();
                                     Navigator.pop(context);
                                     Navigator.pop(context);
                                   },

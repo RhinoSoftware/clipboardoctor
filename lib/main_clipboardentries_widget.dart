@@ -5,15 +5,15 @@ import 'clipboard_entry.dart';
 import 'clipboard_notifier.dart';
 import 'models/clipboard_entry_model.dart';
 
-class ClipboardMainWidget extends ConsumerWidget {
-  const ClipboardMainWidget({Key? key}) : super(key: key);
+class ClipboardMainScreen extends ConsumerWidget {
+  const ClipboardMainScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Center(
       child: SingleChildScrollView(child: Consumer(
         builder: (context, ref, child) {
-          final clipboardItems = ref.watch(clipboardEntriesProvider);
+          final clipboardItems = ref.watch(clipboardItemsProvider);
           return Column(
             children: [
               const Text('Pinned Items'),
