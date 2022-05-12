@@ -12,17 +12,13 @@ import 'package:flutter/material.dart'
         MainAxisSize,
         Material,
         Navigator,
-        Row,
-        Switch,
         Text,
         TextButton,
         Widget,
         showDialog;
 import 'package:flutter_riverpod/flutter_riverpod.dart' show ConsumerWidget;
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../providers/clipboard_notifier.dart';
-import '../main.dart' show themeProvider;
 
 class SettingsWidget extends ConsumerWidget {
   const SettingsWidget({

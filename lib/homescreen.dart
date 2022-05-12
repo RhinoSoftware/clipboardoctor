@@ -1,6 +1,5 @@
 import 'package:clipboard_watcher/clipboard_watcher.dart';
 import 'package:clipboardoctor/providers/clipboard_notifier.dart';
-import 'package:clipboardoctor/widgets/settings_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
