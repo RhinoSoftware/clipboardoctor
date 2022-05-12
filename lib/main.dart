@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:macos_ui/macos_ui.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'homescreen.dart';
@@ -25,10 +26,10 @@ class MyApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ref) {
     _getThemeSavedData(ref.read);
-    return MaterialApp(
+    return MacosApp(
       debugShowCheckedModeBanner: false,
       title: 'Clipboard Doctor',
-      theme: ref.watch(themeProvider) ? ThemeData.dark() : ThemeData.light(),
+      theme: ref.watch(themeProvider) ? MacosThemeData.dark() : MacosThemeData.light(),
       home: const HomeScreen(),
     );
   }

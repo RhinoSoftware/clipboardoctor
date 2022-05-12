@@ -1,10 +1,12 @@
 import 'package:clipboard_watcher/clipboard_watcher.dart';
 import 'package:clipboardoctor/providers/clipboard_notifier.dart';
+import 'package:clipboardoctor/widgets/settings_widget.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:macos_ui/macos_ui.dart';
 
-import 'widgets/settings_widget.dart';
 import 'widgets/pinned_items.dart';
 import 'widgets/unpinned_items.dart';
 
@@ -46,26 +48,111 @@ class _ClipBoardSecondState extends ConsumerState<HomeScreen> with ClipboardList
     }
   }
 
+  int pageIndex = 0;
+
+  late final searchFieldController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     final clipboardItems = ref.watch(clipboardItemsProvider);
-    return Scaffold(
-        appBar: AppBar(
-          title: const Text('Clipboard Doctor'),
-          actions: const [
-            //gear icon to show settings popup
-            SettingsWidget(),
-          ],
+    return MacosWindow(
+      // child: IndexedStack(
+      //   index: pageIndex,
+      //   children: [
+      //     ContentArea(
+      //       builder: (BuildContext context, ScrollController scrollController) {
+      //         return Material(
+      //           child: SingleChildScrollView(
+      //             child: Column(
+      //               mainAxisSize: MainAxisSize.min,
+      //               children: [
+      //                 PinnedItemsWidget(clipboardItems: clipboardItems.where((element) => element.pinned).toList()),
+      //                 const Divider(),
+      //                 UnpinnedItemsWidget(clipboardItems: clipboardItems.where((element) => !element.pinned).toList()),
+      //               ],
+      //             ),
+      //           ),
+      //         );
+      //       },
+      //     ),
+      //   ],
+      // ),
+      titleBar: const TitleBar(
+        height: 50,
+        title: Text('Clipboard Doctor'),
+      ),
+      sidebar: Sidebar(
+          builder: (context, controller) {
+            return SidebarItems(currentIndex: 0, onChanged: (i) {}, scrollController: controller, items: [
+              const SidebarItem(
+                leading: MacosIcon(CupertinoIcons.home),
+                label: Text('Home'),
+              ),
+              SidebarItem(
+                  leading: const MacosIcon(CupertinoIcons.delete),
+                  label: TextButton(
+                    child: const Text('Clear Data'),
+                    onPressed: () => showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return MacosAlertDialog(
+                          appIcon: const MacosIcon(CupertinoIcons.delete),
+                          message: const Text('Are you sure you want to clear all items?'),
+                          primaryButton: Column(
+                            children: [
+                              TextButton(
+                                onPressed: () {
+                                  ref.read(clipboardItemsProvider.notifier).clearUnpinnedData();
+                                  Navigator.pop(context);
+                                  // Navigator.pop(context);
+                                },
+                                child: const Text('Keep pinned items'),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  ref.read(clipboardItemsProvider.notifier).clearAllData();
+                                  Navigator.pop(context);
+                                  Navigator.pop(context);
+                                },
+                                child: const Text('Delete everything'),
+                              ),
+                              TextButton(
+                                onPressed: () => Navigator.pop(context),
+                                child: const Text('Close'),
+                              ),
+                            ],
+                          ),
+                          title: const Text('Caution'),
+                        );
+                      },
+                    ),
+                  ))
+            ]);
+          },
+          bottom: const MacosListTile(
+            leading: MacosIcon(CupertinoIcons.info),
+            title: Text('Request a feature'),
+            subtitle: Text('huthaifa@rhinosoft.io'),
+          ),
+          minWidth: 200),
+      child: MacosScaffold(children: [
+        ContentArea(
+          builder: (BuildContext context, ScrollController scrollController) {
+            return Material(
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    PinnedItemsWidget(clipboardItems: clipboardItems.where((element) => element.pinned).toList()),
+                    const Divider(),
+                    UnpinnedItemsWidget(clipboardItems: clipboardItems.where((element) => !element.pinned).toList()),
+                  ],
+                ),
+              ),
+            );
+          },
         ),
-        body: Center(
-          child: SingleChildScrollView(
-              child: Column(
-            children: [
-              PinnedItemsWidget(clipboardItems: clipboardItems.where((element) => element.pinned).toList()),
-              const Divider(),
-              UnpinnedItemsWidget(clipboardItems: clipboardItems.where((element) => !element.pinned).toList()),
-            ],
-          )),
-        ));
+      ]),
+    );
   }
 }
