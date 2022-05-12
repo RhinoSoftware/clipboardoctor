@@ -18,7 +18,7 @@ import 'package:flutter/material.dart'
         showDialog;
 import 'package:flutter_riverpod/flutter_riverpod.dart' show ConsumerWidget;
 
-import 'clipboard_watcher.dart' show clearAllData;
+import 'clipboard_notifier.dart';
 import 'main.dart' show themeProvider;
 
 class SettingsWidget extends ConsumerWidget {
@@ -68,7 +68,8 @@ class SettingsWidget extends ConsumerWidget {
                                 ),
                                 TextButton(
                                   onPressed: () {
-                                    clearAllData(ref.read);
+                                    ref.read(clipboardEntriesProvider.notifier).clearAllData();
+                                    Navigator.pop(context);
                                     Navigator.pop(context);
                                   },
                                   child: const Text('YES, I AM SURE!'),

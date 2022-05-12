@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'clipboard_watcher.dart';
+import 'homescreen.dart';
 
 void main() {
   runApp(const ProviderScope(child: MyApp()));

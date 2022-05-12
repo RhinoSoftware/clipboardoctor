@@ -7,22 +7,21 @@ part 'clipboard_entry_model.freezed.dart';
 part 'clipboard_entry_model.g.dart';
 
 @freezed
-class ClipboardEntry with _$ClipboardEntry {
-  const ClipboardEntry._();
+class ClipboardItem with _$ClipboardItem {
+  const ClipboardItem._();
 
   // ignore: invalid_annotation_target
   @JsonSerializable(explicitToJson: true)
-  const factory ClipboardEntry({
+  const factory ClipboardItem({
     required String text,
-     bool? pinned,
+    //bool with default value
+    @Default(false) bool pinned,
   }) = _ClipboardEntry;
 
-  factory ClipboardEntry.fromJson(Map<String, dynamic> json) =>
-      _$ClipboardEntryFromJson(json);
+  factory ClipboardItem.fromJson(Map<String, dynamic> json) => _$ClipboardItemFromJson(json);
 
-      String toJsonString() => jsonEncode(toJson());
+  String toJsonString() => jsonEncode(toJson());
 
-      //return ClipboardEntry from jsonString
-      static ClipboardEntry fromJsonString(String jsonString) =>
-          ClipboardEntry.fromJson(jsonDecode(jsonString));
+  //return ClipboardItem from jsonString
+  static ClipboardItem fromJsonString(String jsonString) => ClipboardItem.fromJson(jsonDecode(jsonString));
 }

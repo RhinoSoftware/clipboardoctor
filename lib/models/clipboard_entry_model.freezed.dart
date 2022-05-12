@@ -14,37 +14,38 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-ClipboardEntry _$ClipboardEntryFromJson(Map<String, dynamic> json) {
+ClipboardItem _$ClipboardItemFromJson(Map<String, dynamic> json) {
   return _ClipboardEntry.fromJson(json);
 }
 
 /// @nodoc
-mixin _$ClipboardEntry {
-  String get text => throw _privateConstructorUsedError;
-  bool? get pinned => throw _privateConstructorUsedError;
+mixin _$ClipboardItem {
+  String get text =>
+      throw _privateConstructorUsedError; //bool with default value
+  bool get pinned => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $ClipboardEntryCopyWith<ClipboardEntry> get copyWith =>
+  $ClipboardItemCopyWith<ClipboardItem> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $ClipboardEntryCopyWith<$Res> {
-  factory $ClipboardEntryCopyWith(
-          ClipboardEntry value, $Res Function(ClipboardEntry) then) =
-      _$ClipboardEntryCopyWithImpl<$Res>;
-  $Res call({String text, bool? pinned});
+abstract class $ClipboardItemCopyWith<$Res> {
+  factory $ClipboardItemCopyWith(
+          ClipboardItem value, $Res Function(ClipboardItem) then) =
+      _$ClipboardItemCopyWithImpl<$Res>;
+  $Res call({String text, bool pinned});
 }
 
 /// @nodoc
-class _$ClipboardEntryCopyWithImpl<$Res>
-    implements $ClipboardEntryCopyWith<$Res> {
-  _$ClipboardEntryCopyWithImpl(this._value, this._then);
+class _$ClipboardItemCopyWithImpl<$Res>
+    implements $ClipboardItemCopyWith<$Res> {
+  _$ClipboardItemCopyWithImpl(this._value, this._then);
 
-  final ClipboardEntry _value;
+  final ClipboardItem _value;
   // ignore: unused_field
-  final $Res Function(ClipboardEntry) _then;
+  final $Res Function(ClipboardItem) _then;
 
   @override
   $Res call({
@@ -59,24 +60,24 @@ class _$ClipboardEntryCopyWithImpl<$Res>
       pinned: pinned == freezed
           ? _value.pinned
           : pinned // ignore: cast_nullable_to_non_nullable
-              as bool?,
+              as bool,
     ));
   }
 }
 
 /// @nodoc
 abstract class _$$_ClipboardEntryCopyWith<$Res>
-    implements $ClipboardEntryCopyWith<$Res> {
+    implements $ClipboardItemCopyWith<$Res> {
   factory _$$_ClipboardEntryCopyWith(
           _$_ClipboardEntry value, $Res Function(_$_ClipboardEntry) then) =
       __$$_ClipboardEntryCopyWithImpl<$Res>;
   @override
-  $Res call({String text, bool? pinned});
+  $Res call({String text, bool pinned});
 }
 
 /// @nodoc
 class __$$_ClipboardEntryCopyWithImpl<$Res>
-    extends _$ClipboardEntryCopyWithImpl<$Res>
+    extends _$ClipboardItemCopyWithImpl<$Res>
     implements _$$_ClipboardEntryCopyWith<$Res> {
   __$$_ClipboardEntryCopyWithImpl(
       _$_ClipboardEntry _value, $Res Function(_$_ClipboardEntry) _then)
@@ -98,7 +99,7 @@ class __$$_ClipboardEntryCopyWithImpl<$Res>
       pinned: pinned == freezed
           ? _value.pinned
           : pinned // ignore: cast_nullable_to_non_nullable
-              as bool?,
+              as bool,
     ));
   }
 }
@@ -107,26 +108,29 @@ class __$$_ClipboardEntryCopyWithImpl<$Res>
 
 @JsonSerializable(explicitToJson: true)
 class _$_ClipboardEntry extends _ClipboardEntry with DiagnosticableTreeMixin {
-  const _$_ClipboardEntry({required this.text, this.pinned}) : super._();
+  const _$_ClipboardEntry({required this.text, this.pinned = false})
+      : super._();
 
   factory _$_ClipboardEntry.fromJson(Map<String, dynamic> json) =>
       _$$_ClipboardEntryFromJson(json);
 
   @override
   final String text;
+//bool with default value
   @override
-  final bool? pinned;
+  @JsonKey()
+  final bool pinned;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'ClipboardEntry(text: $text, pinned: $pinned)';
+    return 'ClipboardItem(text: $text, pinned: $pinned)';
   }
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties
-      ..add(DiagnosticsProperty('type', 'ClipboardEntry'))
+      ..add(DiagnosticsProperty('type', 'ClipboardItem'))
       ..add(DiagnosticsProperty('text', text))
       ..add(DiagnosticsProperty('pinned', pinned));
   }
@@ -158,9 +162,9 @@ class _$_ClipboardEntry extends _ClipboardEntry with DiagnosticableTreeMixin {
   }
 }
 
-abstract class _ClipboardEntry extends ClipboardEntry {
+abstract class _ClipboardEntry extends ClipboardItem {
   const factory _ClipboardEntry(
-      {required final String text, final bool? pinned}) = _$_ClipboardEntry;
+      {required final String text, final bool pinned}) = _$_ClipboardEntry;
   const _ClipboardEntry._() : super._();
 
   factory _ClipboardEntry.fromJson(Map<String, dynamic> json) =
@@ -168,8 +172,8 @@ abstract class _ClipboardEntry extends ClipboardEntry {
 
   @override
   String get text => throw _privateConstructorUsedError;
-  @override
-  bool? get pinned => throw _privateConstructorUsedError;
+  @override //bool with default value
+  bool get pinned => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$$_ClipboardEntryCopyWith<_$_ClipboardEntry> get copyWith =>
