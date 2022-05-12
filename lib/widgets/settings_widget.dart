@@ -17,9 +17,10 @@ import 'package:flutter/material.dart'
         Widget,
         showDialog;
 import 'package:flutter_riverpod/flutter_riverpod.dart' show ConsumerWidget;
+import 'package:shared_preferences/shared_preferences.dart';
 
-import 'clipboard_notifier.dart';
-import 'main.dart' show themeProvider;
+import '../providers/clipboard_notifier.dart';
+import '../main.dart' show themeProvider;
 
 class SettingsWidget extends ConsumerWidget {
   const SettingsWidget({
@@ -49,7 +50,10 @@ class SettingsWidget extends ConsumerWidget {
                     const Text('Light Mode'),
                     Switch(
                       value: ref.watch(themeProvider),
-                      onChanged: (value) {
+                      onChanged: (value) async{
+                        //save the value to shared preferences
+                          final prefs = await SharedPreferences.getInstance();
+                          prefs.setBool('clipoarddoctortheme', value);
                         ref.read(themeProvider.state).update((state) => value);
                       },
                     ),

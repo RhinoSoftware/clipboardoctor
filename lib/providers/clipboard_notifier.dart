@@ -1,10 +1,17 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'models/clipboard_entry_model.dart';
+import '../models/clipboard_entry_model.dart';
+
+// Using StateNotifierProvider to allow the UI to interact with
+// our ItemsNotifier class.
+final clipboardItemsProvider = StateNotifierProvider<ClipboardItemsNotifier, List<ClipboardItem>>((ref) {
+  return ClipboardItemsNotifier();
+});
 
 class ClipboardItemsNotifier extends StateNotifier<List<ClipboardItem>> {
   ClipboardItemsNotifier() : super(<ClipboardItem>[]);
+  static const appkey = 'clipboardoctorsharedpreferences@rhinosoft.io';
 
 // Let's allow the UI to add items.
   void addItem(String text) {
@@ -51,7 +58,6 @@ class ClipboardItemsNotifier extends StateNotifier<List<ClipboardItem>> {
     saveItemsToStorage();
   }
 
-  static const appkey = 'clipboardoctor';
   void clearAllData() async {
     final prefs = await SharedPreferences.getInstance();
     prefs.remove(appkey);
@@ -67,9 +73,3 @@ class ClipboardItemsNotifier extends StateNotifier<List<ClipboardItem>> {
     }
   }
 }
-
-// Finally, we are using StateNotifierProvider to allow the UI to interact with
-// our ItemsNotifier class.
-final clipboardItemsProvider = StateNotifierProvider<ClipboardItemsNotifier, List<ClipboardItem>>((ref) {
-  return ClipboardItemsNotifier();
-});

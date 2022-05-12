@@ -1,11 +1,12 @@
 import 'package:clipboard_watcher/clipboard_watcher.dart';
-import 'package:clipboardoctor/clipboard_notifier.dart';
-import 'package:clipboardoctor/main_clipboardentries_widget.dart';
+import 'package:clipboardoctor/providers/clipboard_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'settings_widget.dart';
+import 'widgets/settings_widget.dart';
+import 'widgets/pinned_items.dart';
+import 'widgets/unpinned_items.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -47,6 +48,7 @@ class _ClipBoardSecondState extends ConsumerState<HomeScreen> with ClipboardList
 
   @override
   Widget build(BuildContext context) {
+    final clipboardItems = ref.watch(clipboardItemsProvider);
     return Scaffold(
         appBar: AppBar(
           title: const Text('Clipboard Doctor'),
@@ -55,6 +57,15 @@ class _ClipBoardSecondState extends ConsumerState<HomeScreen> with ClipboardList
             SettingsWidget(),
           ],
         ),
-        body: const ClipboardMainScreen());
+        body: Center(
+          child: SingleChildScrollView(
+              child: Column(
+            children: [
+              PinnedItemsWidget(clipboardItems: clipboardItems.where((element) => element.pinned).toList()),
+              const Divider(),
+              UnpinnedItemsWidget(clipboardItems: clipboardItems.where((element) => !element.pinned).toList()),
+            ],
+          )),
+        ));
   }
 }

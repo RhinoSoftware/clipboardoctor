@@ -1,15 +1,15 @@
 // ignore_for_file: file_names
 
-import 'package:clipboardoctor/clipboard_notifier.dart';
+import 'package:clipboardoctor/providers/clipboard_notifier.dart';
 import 'package:clipboardoctor/models/clipboard_entry_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
-class ClipboardEntryWidget extends ConsumerWidget {
+class ClipboardItemWidget extends ConsumerWidget {
   final ClipboardItem entry;
-  const ClipboardEntryWidget({Key? key, required this.entry}) : super(key: key);
+  const ClipboardItemWidget({Key? key, required this.entry}) : super(key: key);
 
   @override
   Widget build(BuildContext context, ref) {
