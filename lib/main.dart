@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'homescreen.dart';
 
 void main() {
+  // runApp(const ProviderScope(child: MacosUIGalleryApp()));
   runApp(const ProviderScope(child: MyApp()));
 }
 
@@ -16,9 +17,9 @@ class MyApp extends ConsumerWidget {
   const MyApp({Key? key}) : super(key: key);
   void _getThemeSavedData(Reader read) async {
     final prefs = await SharedPreferences.getInstance();
-    final theme = prefs.getBool('clipoarddoctortheme');
-    if (theme != null) {
-      read(themeProvider.state).update((state) => theme);
+    final darkThemeData = prefs.getBool('clipoarddoctortheme');
+    if (darkThemeData != null) {
+      read(themeProvider.state).update((state) => darkThemeData);
     }
   }
 
@@ -29,7 +30,9 @@ class MyApp extends ConsumerWidget {
     return MacosApp(
       debugShowCheckedModeBanner: false,
       title: 'Clipboard Doctor',
-      theme: ref.watch(themeProvider) ? MacosThemeData.dark() : MacosThemeData.light(),
+      theme: MacosThemeData.light(),
+      darkTheme: MacosThemeData.dark(),
+      themeMode: ref.watch(themeProvider) ? ThemeMode.dark : ThemeMode.light,
       home: const HomeScreen(),
     );
   }

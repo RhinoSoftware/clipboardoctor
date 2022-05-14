@@ -17,7 +17,8 @@ class ClipboardItemWidget extends ConsumerWidget {
         ? const SizedBox()
         : SizedBox(
             width: 350,
-            child: InkWell(
+            height: 100,
+            child: GestureDetector(
               onTap: () async => await Clipboard.setData(ClipboardData(text: entry.text)),
               child: Card(
                 child: ListTile(
