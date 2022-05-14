@@ -111,7 +111,6 @@ class _ClipBoardSecondState extends ConsumerState<HomeScreen> with ClipboardList
                                 onPressed: () {
                                   ref.read(clipboardItemsProvider.notifier).clearAllData();
                                   Navigator.pop(context);
-                                  Navigator.pop(context);
                                 },
                                 child: const Text('Delete everything'),
                               ),
